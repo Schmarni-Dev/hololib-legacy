@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.DisplayEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 import static dev.schmarni.hololib.HoloLib.LOGGER;
 
@@ -24,17 +25,21 @@ public class HoloDisplayEntityRenderer extends DisplayEntityRenderer<HoloDisplay
     @Override
     public void render(HoloDisplayEntity holoDisplayEntity, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, float f) {
         var states = holoDisplayEntity.getBlockStates().getAllItemsAndIndexes();
-        var previous = Vec3d.ZERO;
-        var scale = 1.1f;
+//        var previous = Vec3d.ZERO;
+
+        var scale = 1.001f;
+        var offset = (scale - 1f) * 0.5f;
         var inverse_scale = 1/scale;
         for (var data : states) {
-            var pos = data.getLeft();
-            matrixStack.translate(pos.getX() - previous.getX(), pos.getY() - previous.getY(), pos.getZ() - previous.getZ());
-            matrixStack.scale(scale,scale,scale);
+            int val = data.getLeft().getX() + data.getLeft().getY() +data.getLeft().getZ();
+            boolean is_wrong = val % 2 == 1;
 
-            previous = Vec3d.of(pos);
-            this.blockRenderManager.renderBlockAsEntity(data.getRight(), matrixStack, vertexConsumerProvider, 0x00F00000, OverlayTexture.getUv(0,true));
+            var pos = Vec3d.of(data.getLeft()).subtract(new Vec3d(offset,offset,offset));
+            matrixStack.translate(pos.getX(), pos.getY(), pos.getZ());
+
+            this.blockRenderManager.renderBlockAsEntity(data.getRight(), matrixStack, vertexConsumerProvider, 0x00F00000, OverlayTexture.getUv(0,is_wrong));
             matrixStack.scale(inverse_scale,inverse_scale,inverse_scale);
+            matrixStack.translate(-pos.getX(), -pos.getY(), -pos.getZ());
         }
 
     }

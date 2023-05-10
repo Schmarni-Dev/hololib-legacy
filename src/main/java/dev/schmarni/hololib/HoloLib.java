@@ -114,7 +114,7 @@ public class HoloLib implements ModInitializer {
 			three_d_loop(new Vec3i(size,size,size), (pos)->{
 				if (!(pos.getX() == size - 1 || pos.getY() == size - 1 || pos.getZ() == size - 1
 						|| pos.getX() == 0 || pos.getY() == 0 || pos.getZ() == 0)) return;
-				list.setItemAtIndex(pos,Blocks.GLASS.getDefaultState());
+				list.setItemAtIndex(pos,Blocks.BLUE_ICE.getDefaultState());
 			});
 			initEntity(list,new BlockPos(0,0,0),server);
 			world_loaded = true;
