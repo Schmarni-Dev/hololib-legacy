@@ -25,12 +25,16 @@ public class HoloDisplayEntityRenderer extends DisplayEntityRenderer<HoloDisplay
     public void render(HoloDisplayEntity holoDisplayEntity, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, float f) {
         var states = holoDisplayEntity.getBlockStates().getAllItemsAndIndexes();
         var previous = Vec3d.ZERO;
+        var scale = 1.1f;
+        var inverse_scale = 1/scale;
         for (var data : states) {
             var pos = data.getLeft();
             matrixStack.translate(pos.getX() - previous.getX(), pos.getY() - previous.getY(), pos.getZ() - previous.getZ());
+            matrixStack.scale(scale,scale,scale);
 
             previous = Vec3d.of(pos);
-            this.blockRenderManager.renderBlockAsEntity(data.getRight(), matrixStack, vertexConsumerProvider, 0x00F00000, OverlayTexture.DEFAULT_UV);
+            this.blockRenderManager.renderBlockAsEntity(data.getRight(), matrixStack, vertexConsumerProvider, 0x00F00000, OverlayTexture.getUv(0,true));
+            matrixStack.scale(inverse_scale,inverse_scale,inverse_scale);
         }
 
     }

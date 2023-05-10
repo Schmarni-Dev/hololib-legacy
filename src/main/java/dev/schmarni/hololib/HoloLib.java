@@ -108,15 +108,13 @@ public class HoloLib implements ModInitializer {
 				server.getCommandManager().getDispatcher().execute("kill @e[type=!minecraft:player]",server.getCommandSource());
 			} catch (CommandSyntaxException ignored) {
 			}
-			TeStS(server.getOverworld());
+//			TeStS(server.getOverworld());
 			var list = new HashList3<BlockState>();
-//			list.setItemAtIndex(new BlockPos(0,0,0),Blocks.ACACIA_PLANKS.getDefaultState());
-//			list.setItemAtIndex(new BlockPos(0,1,0),Blocks.BLUE_ICE.getDefaultState());
 			int size = 16;
 			three_d_loop(new Vec3i(size,size,size), (pos)->{
 				if (!(pos.getX() == size - 1 || pos.getY() == size - 1 || pos.getZ() == size - 1
 						|| pos.getX() == 0 || pos.getY() == 0 || pos.getZ() == 0)) return;
-				list.setItemAtIndex(pos,Blocks.BEDROCK.getDefaultState());
+				list.setItemAtIndex(pos,Blocks.GLASS.getDefaultState());
 			});
 			initEntity(list,new BlockPos(0,0,0),server);
 			world_loaded = true;
