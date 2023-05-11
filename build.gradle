@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.2-SNAPSHOT'
 	id 'maven-publish'
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
@@ -65,9 +66,9 @@ jar {
 // configure the maven publication
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
+//		mavenJava(MavenPublication) {
+//			from components.java
+//		}
 	}
 
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
@@ -76,5 +77,24 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+import com.modrinth.minotaur.dependencies.ModDependency
+
+modrinth {
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	System.out.println("Enter a Modrinth token: ");
+	token = br.readLine(); // Enter the token you got from the basics part of this tutorial.
+	projectId = "LEApEV0T" // Enter your Modrinth project ID here.
+	versionNumber = mod_version;
+	versionName = minecraft_version;
+	uploadFile = remapJar
+	gameVersions = [minecraft_version];
+	System.out.println("Enter changelog:");
+	changelog = br.readLine();
+	loaders = ["fabric","quilt"]
+	dependencies {
+		new ModDependency('P7dR8mSH', 'required')
 	}
 }

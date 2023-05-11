@@ -3,15 +3,14 @@
   "id": "hololib",
   "version": "${version}",
   "name": "HoloLib",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "This is a Library mod To make the creation and usage of Block Holograms easier.",
   "authors": [
-    "Me!"
+    "Schmarni"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Schmarni-Dev/hololib"
   },
-  "license": "CC0-1.0",
+  "license": "GNU GPLv3",
   "environment": "*",
   "entrypoints": {
     "main": [

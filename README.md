@@ -1,9 +1,11 @@
-# Fabric Example Mod
+# HoloLib
 
-## Setup
+This is a Library mod for creating and using Block Holograms
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+## Build from Source
+
+Clone repo then run ./gradlew build
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This Mod is Licensed under GNU GPLv3;
