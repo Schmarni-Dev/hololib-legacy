@@ -1,7 +1,10 @@
 package dev.schmarni.hololib.utils;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.BlockView;
 
 public final class Util {
     public interface ICallback<T> {
@@ -17,4 +20,12 @@ public final class Util {
             }
         }
     }
+
+    public static Boolean never(BlockState state, BlockView world, BlockPos pos, EntityType<?> type) {
+        return false;
+    }
+    public static boolean never(BlockState state, BlockView world, BlockPos pos) {
+        return false;
+    }
+
 }

@@ -12,28 +12,25 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 import java.util.Objects;
-
-import static dev.schmarni.hololib.HoloLib.LOGGER;
-
-
 public final class HashList3Helper {
     public static void writeNbt(String name, HashList3<BlockState> value, NbtCompound nbt) {
         NbtList data = new NbtList();
-        LOGGER.info(String.valueOf(data.getHeldType()));
+//        LOGGER.info(String.valueOf(data.getHeldType()));
         value.getAllItemsAndIndexes().stream().map((pair)->{
             NbtCompound nbtCompound = new NbtCompound();
             nbtCompound.put("pos", NbtHelper.fromBlockPos(new BlockPos(pair.getLeft())));
             nbtCompound.put("state", NbtHelper.fromBlockState(pair.getRight()));
             return nbtCompound;
         }).forEach(data::add);
-        LOGGER.info(data.asString());
+//        LOGGER.info(data.asString());
         nbt.put(name,data);
     }
 
     public static HashList3<BlockState> readNbt(String name, NbtCompound nbt, World world) {
         NbtList data = (NbtList) nbt.get(name);
-        LOGGER.info("List: " +data.asString());
+//        LOGGER.info("List: " +data.asString());
         var list = new HashList3<BlockState>();
+        assert data != null;
         data.stream().map((nbtElement)-> {
             if (!(nbtElement instanceof NbtCompound nbtCompound)) return null;
             var pos = NbtHelper.toBlockPos(nbtCompound.getCompound("pos"));

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "": { "model": "hololib:block/error_block" }
+  }
+}
+

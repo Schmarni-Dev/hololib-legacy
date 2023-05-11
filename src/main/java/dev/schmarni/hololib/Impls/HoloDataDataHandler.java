@@ -39,21 +39,21 @@ public class HoloDataDataHandler implements TrackedDataHandler<HoloData> {
     public HoloData read(PacketByteBuf buf) {
         var length = buf.readInt();
         LOGGER.info(String.valueOf(length));
-        var out = new HoloData();
+        var out = new HashList3<BlockState>();
         for (int i = 0; i < length; i++) {
             var pos = buf.readBlockPos();
             Codec<BlockState> codec = BlockState.CODEC;
             NbtOps ops = NbtOps.INSTANCE;
-            DataResult<BlockState> result = codec.parse(ops, (NbtElement) buf.readNbt());
+            DataResult<BlockState> result = codec.parse(ops, buf.readNbt());
             if (result.result().isPresent()) {
                 BlockState state = result.result().get();
-                out.setSchematicBlockAt(pos,state);
+                out.setItemAtIndex(pos,state);
             } else {
                 LOGGER.error("COULD NOT DESERIALIZE BLOCK-STATE!!!!");
-                out.setSchematicBlockAt(pos, Blocks.AIR.getDefaultState());
+                out.setItemAtIndex(pos, Blocks.AIR.getDefaultState());
             }
         }
-        return out;
+        return new HoloData(out);
     }
 
     @Override

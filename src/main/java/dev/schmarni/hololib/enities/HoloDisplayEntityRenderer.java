@@ -1,5 +1,6 @@
 package dev.schmarni.hololib.enities;
 
+import dev.schmarni.hololib.Impls.HoloData;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
@@ -8,10 +9,12 @@ import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.entity.DisplayEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
-import static dev.schmarni.hololib.HoloLib.LOGGER;
+
+import static dev.schmarni.hololib.HoloLib.ERROR_BLOCK;
+
 
 @Environment(value= EnvType.CLIENT)
 public class HoloDisplayEntityRenderer extends DisplayEntityRenderer<HoloDisplayEntity> {
@@ -31,13 +34,19 @@ public class HoloDisplayEntityRenderer extends DisplayEntityRenderer<HoloDisplay
         var offset = (scale - 1f) * 0.5f;
         var inverse_scale = 1/scale;
         for (var data : states) {
-            int val = data.getLeft().getX() + data.getLeft().getY() +data.getLeft().getZ();
-            boolean is_wrong = val % 2 == 1;
+            var state = holoDisplayEntity.getHoloData().getBlockStatus(new BlockPos(data.getLeft()),holoDisplayEntity);
+            if (state == HoloData.SchematicBlockStatus.Correct) continue;
+            boolean is_wrong = state == HoloData.SchematicBlockStatus.Wrong;
+            var blockstate = data.getRight();
+            if (state == HoloData.SchematicBlockStatus.Wrong )
+                blockstate = ERROR_BLOCK.getDefaultState();
 
             var pos = Vec3d.of(data.getLeft()).subtract(new Vec3d(offset,offset,offset));
-            matrixStack.translate(pos.getX(), pos.getY(), pos.getZ());
 
-            this.blockRenderManager.renderBlockAsEntity(data.getRight(), matrixStack, vertexConsumerProvider, 0x00F00000, OverlayTexture.getUv(0,is_wrong));
+            matrixStack.translate(pos.getX(), pos.getY(), pos.getZ());
+            matrixStack.scale(scale,scale,scale);
+
+            this.blockRenderManager.renderBlockAsEntity(blockstate, matrixStack, vertexConsumerProvider, 0x00F00000, OverlayTexture.getUv(0,is_wrong));
             matrixStack.scale(inverse_scale,inverse_scale,inverse_scale);
             matrixStack.translate(-pos.getX(), -pos.getY(), -pos.getZ());
         }
